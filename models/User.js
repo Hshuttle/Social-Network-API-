@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const Thought = require("./Thought");
 const thoughtSchema = require("./Thought");
 
 // Schema to create Student model
@@ -20,13 +21,15 @@ const userSchema = new Schema(
         "Please fill a valid email address",
       ],
     },
-    thought: [thoughtSchema],
+    thoughts: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
+    friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   // need to do friends self reference
   {
     toJSON: {
       virtuals: true,
     },
+    id: false,
   }
 );
 
@@ -37,6 +40,6 @@ userSchema
     return `${this.friends.length}`;
   });
 
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;

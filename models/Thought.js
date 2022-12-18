@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const reactionSchema = require("./Reaction");
 
 // Schema to create a course model
 const thoughtSchema = new Schema(
@@ -6,36 +7,28 @@ const thoughtSchema = new Schema(
     thoughtText: {
       type: String,
       required: true,
-      validate: thoughtValidator,
+      minlength: 1,
+      maxlength: 280,
     },
     createdAt: {
       type: Date,
       default: Date.now(),
       // getter to format timestamp
     },
-    username: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Username",
-      },
-    ],
-    // reactions
+    username: {
+      type: String,
+      required: true,
+    },
+
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
-      virtuals: true,
+      getters: true,
     },
     id: false,
   }
 );
-
-var thoughtValidator = [
-  validate({
-    validator: "isLength",
-    arguments: [1, 280],
-    message: "Name should be between 1 and 280 characters",
-  }),
-];
 
 thoughtSchema
   .virtual("reactionCount")
