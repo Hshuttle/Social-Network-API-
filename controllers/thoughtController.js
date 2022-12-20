@@ -52,4 +52,14 @@ module.exports = {
       })
       .catch((err) => res.status(500).json(err));
   },
+  addReaction(req, res) {
+    Thought.findByIdAndUpdate({_id: req.params.userId},{$addToSet: {reactions: req.params.friendId}},{new: true})
+      .then((dbUserData) => res.json(dbUserData))
+      .catch((err) => res.status(500).json(err));
+  },
+  removeReaction(req, res) {
+    Thought.findByIdAndUpdate({_id: req.params.userId},{$pull: {reactions: req.params.friendId}},{new: true})
+      .then((dbUserData) => res.json(dbUserData))
+      .catch((err) => res.status(500).json(err));
+  },
 };
