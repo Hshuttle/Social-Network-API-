@@ -8,25 +8,25 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
       minlength: 1,
-      maxlength: 280,
+      maxlength: 280
     },
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now()
       // getter to format timestamp
     },
     username: {
       type: String,
-      required: true,
+      required: true
     },
 
     reactions: [reactionSchema],
   },
   {
     toJSON: {
-      getters: true,
+      getters: true
     },
-    id: false,
+    id: false
   }
 );
 
@@ -37,6 +37,6 @@ thoughtSchema
     return `${this.reaction.length}`;
   });
 
-const Thought = model("thought", thoughtSchema);
+const Thought = model("Thought", thoughtSchema);
 
 module.exports = Thought;

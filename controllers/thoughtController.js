@@ -7,7 +7,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.userId })
+    Thought.findOne({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: "No thought with that ID" })
@@ -29,10 +29,27 @@ module.exports = {
           if (!userData) {
             return res.status(404).json({ msg: "No user found" });
           }
+          res.json(userData);
         });
       })
-
-      .then((dbThoughtData) => res.json(dbThoughtData))
+      .catch((err) => res.status(500).json(err));
+  },
+  deleteThought(req, res) {
+    Thought.create(req.body)
+      .then((thoughtData) => {
+        return User.findOneAndUpdate(
+          {
+            _id: req.body.userId,
+          },
+          { $pull: { thoughts: thoughtData._id } },
+          { new: true }
+        ).then((userData) => {
+          if (!userData) {
+            return res.status(404).json({ msg: "No user found" });
+          }
+          res.json(userData);
+        });
+      })
       .catch((err) => res.status(500).json(err));
   },
 };

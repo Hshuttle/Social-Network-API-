@@ -18,10 +18,9 @@ const userSchema = new Schema(
         "Please fill a valid email address",
       ],
     },
-    thoughts: [{ type: Schema.Types.ObjectId, ref: "thought" }],
-    friends: [{ type: Schema.Types.ObjectId, ref: "user" }],
+    thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
+    friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
-  // need to do friends self reference
   {
     toJSON: {
       virtuals: true,
@@ -37,6 +36,6 @@ userSchema
     return `${this.friends.length}`;
   });
 
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;
