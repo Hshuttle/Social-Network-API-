@@ -34,6 +34,12 @@ module.exports = {
       })
       .catch((err) => res.status(500).json(err));
   },
+  updateThought(req, res) {
+    Thought.findByIdAndUpdate({_id: req.params.thoughtId},{$set:req.body},{new:true, runValidators: true})
+      .then((thoughtData) => {
+      res.json(thoughtData)
+      }).catch((err) => res.status(500).json(err));
+  },
   deleteThought(req, res) {
     Thought.create(req.body)
       .then((thoughtData) => {

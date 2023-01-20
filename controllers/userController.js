@@ -31,4 +31,13 @@ module.exports = {
       .then((dbUserData) => res.json(dbUserData))
       .catch((err) => res.status(500).json(err));
   },
+  deleteUser(req, res) {
+    User.findByIdAndRemove({_id: req.params.userId})
+      .then((dbUserData) => res.json(dbUserData))
+      .catch((err) => res.status(500).json(err));
+  },
+  updateUser(req, res) {
+    User.findByIdAndUpdate({_id: req.params.userId},{$set: req.body},{new: true, runValidators:true}).then((dbUserData) => res.json(dbUserData))
+    .catch((err) => res.status(500).json(err));
+  }
 };
